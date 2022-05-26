@@ -1,0 +1,28 @@
+## 가져올 문자열은 모두 ','를 포함하고 있다고 가정 ##
+
+def won_2(a):
+    
+    amount = abs(int(a.replace(',','')))  ## 정수화 해서 절대값 씌우기
+    big = amount // 10000
+    small = amount % 10000
+    
+    def small_2(a):
+        if small > 999:return "{:,}".format(small) + "억원"
+        elif small == 0:return ""
+        else:return str(small) + "억원"
+    
+    def big_2(a):
+        if big == 0:
+            return ""
+        elif small == 0:
+            return str(big) + "조원"
+        else:
+            return str(big) + "조 "
+        
+    if str(int(a.replace(',','')))[0] == '-':
+        return f"-{big_2(amount)}{small_2(amount)}"
+    else:
+        return f"{big_2(amount)}{small_2(amount)}"
+        
+
+won_2('700,000')
