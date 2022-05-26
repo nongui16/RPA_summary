@@ -1,0 +1,247 @@
+import Automatic_def # 숫자를 입력하면 억원 단위로 출력해주는 함수 모음
+from Automatic_def import *
+
+import pandas as pd
+from pandas import DataFrame
+from pandas.tseries.offsets import DateOffset
+
+import numpy as np
+import xlwings as xw
+
+import shutil
+import win32com.client as win32
+
+import pyautogui
+
+import calendar
+import datetime
+from datetime import datetime
+import time
+import Automatic_def # 숫자를 입력하면 억원 단위로 출력해주는 함수 모음
+from Automatic_def import *
+​
+import pandas as pd
+from pandas import DataFrame
+from pandas.tseries.offsets import DateOffset
+​
+import numpy as np
+import xlwings as xw
+​
+import shutil
+import win32com.client as win32
+​
+import pyautogui
+​
+import calendar
+import datetime
+from datetime import datetime
+import time
+### 엑셀 input ###
+book_101 = xw.Book("C:/Users/infomax/Desktop/python/RPA_summary/2022년04월말운용요약.xlsx")
+sh101 = book_101.sheets('값최종')
+​
+### 한글 input & output ###
+shutil.copyfile("C:/Users/infomax/Desktop/python/RPA_summary/2022년03월요약.hwp","C:/Users/infomax/Desktop/python/RPA_summary/2022년04월요약.hwp")
+hwp = win32.gencache.EnsureDispatch("HWPFrame.HwpObject")
+hwp.Open(r"C:/Users/infomax/Desktop/python/RPA_summary/2022년04월요약.hwp")
+True
+hwp.PutFieldText('c_1', hwp.GetFieldText('d_1'))
+hwp.PutFieldText('a_1', sh101.range('C2').value)
+​
+n월말 = hwp.GetFieldText('a_1').split(" ")[1]
+​
+hwp.PutFieldText('d_1', hwp.GetFieldText('a_1'))
+for a in range(0,20): #잔액 전월말로 옮기기
+     hwp.PutFieldText(f"c_{a+2}",format(round(sh101.range(f's{a+4}').value),',')) 
+        
+for a in range(0,20): #당월 잔액 채워넣기
+    hwp.PutFieldText(f'd_{a+2}',format(round(sh101.range(f'c{a+4}').value),','))
+    
+import Automatic_def # 숫자를 입력하면 억원 단위로 출력해주는 함수 모음
+from Automatic_def import *
+
+import pandas as pd
+from pandas import DataFrame
+from pandas.tseries.offsets import DateOffset
+
+import numpy as np
+import xlwings as xw
+
+import shutil
+import win32com.client as win32
+
+import pyautogui
+
+import calendar
+import datetime
+from datetime import datetime
+import time
+import Automatic_def # 숫자를 입력하면 억원 단위로 출력해주는 함수 모음
+from Automatic_def import *
+​
+import pandas as pd
+from pandas import DataFrame
+from pandas.tseries.offsets import DateOffset
+​
+import numpy as np
+import xlwings as xw
+​
+import shutil
+import win32com.client as win32
+​
+import pyautogui
+​
+import calendar
+import datetime
+from datetime import datetime
+import time
+### 엑셀 input ###
+book_101 = xw.Book("C:/Users/infomax/Desktop/python/RPA_summary/2022년04월말운용요약.xlsx")
+sh101 = book_101.sheets('값최종')
+​
+### 한글 input & output ###
+shutil.copyfile("C:/Users/infomax/Desktop/python/RPA_summary/2022년03월요약.hwp","C:/Users/infomax/Desktop/python/RPA_summary/2022년04월요약.hwp")
+hwp = win32.gencache.EnsureDispatch("HWPFrame.HwpObject")
+hwp.Open(r"C:/Users/infomax/Desktop/python/RPA_summary/2022년04월요약.hwp")
+True
+hwp.PutFieldText('c_1', hwp.GetFieldText('d_1'))
+hwp.PutFieldText('a_1', sh101.range('C2').value)
+​
+n월말 = hwp.GetFieldText('a_1').split(" ")[1]
+​
+hwp.PutFieldText('d_1', hwp.GetFieldText('a_1'))
+for a in range(0,20): #잔액 전월말로 옮기기
+     hwp.PutFieldText(f"c_{a+2}",format(round(sh101.range(f's{a+4}').value),',')) 
+        
+for a in range(0,20): #당월 잔액 채워넣기
+    hwp.PutFieldText(f'd_{a+2}',format(round(sh101.range(f'c{a+4}').value),','))
+
+# 가져올 문자열은 모두 ','를 포함하고 있다고 가정 ##
+
+def won_2(a):
+    
+    amount = abs(int(a.replace(',','')))  ## 정수화 해서 절대값 씌우기
+    big = amount // 10000
+    small = amount % 10000
+    
+    def small_2(a):
+        if small > 999:return "{:,}".format(small) + "억원"
+        elif small == 0:return ""
+        else:return str(small) + "억원"
+    
+    def big_2(a):
+        if big == 0:
+            return ""
+        elif small == 0:
+            return str(big) + "조원"
+        else:
+            return str(big) + "조 "
+        
+    if str(int(a.replace(',','')))[0] == '-':
+        return f"-{big_2(amount)}{small_2(amount)}"
+    else:
+        return f"{big_2(amount)}{small_2(amount)}"
+        
+## 조원/억원 변환함수2(화살표)
+
+def won_2_arrow(a):
+    amount = won_2(a)
+    if amount[0] == '-':
+        return amount.replace('-','') + '↓' ## 음수면 -지우고 화살표
+    else:
+        return amount + '↑'
+    
+won_2_arrow('1,010,102')
+def won_2_arrow(a):
+    amount = won_2(a)
+    if amount[0] == '-':
+        return amount.replace('-','') + '↓' ## 음수면 -지우고 화살표
+    else:
+        return amount + '↑'
+    
+won_2_arrow('1,010,102')
+'101조원 102억원↑'
+for a in range(0,20): # 결산 손익 전월말
+     hwp.PutFieldText(f"c_{a+22}",format(round(sh101.range(f't{a+4}').value),',')) 
+​
+for a in range(0,20): # 결산 손익 당월 채워넣기
+    hwp.PutFieldText(f'd_{a+22}',format(round(sh101.range(f'e{a+4}').value),',')) 
+    
+for a in range(0,20): # 평가 손익 전월말
+     hwp.PutFieldText(f"c_{a+42}",format(round(sh101.range(f'u{a+4}').value),','))  
+​
+for a in range(0,20): # 평가 손익 당월 채워넣기
+    hwp.PutFieldText(f'd_{a+42}',format(round(sh101.range(f'h{a+4}').value),',')) 
+for a in range(0,20): #전월말 대비 평가손익
+    hwp.PutFieldText(f'e_{a+2}',format((int(hwp.GetFieldText(f'd_{a+42}').replace(',','')) - int(hwp.GetFieldText(f'c_{a+42}').replace(',',""))),','))
+for a in range(0,20): # 결산 수익률 전월말로 옮기기
+     hwp.PutFieldText(f"c_{a+62}","{:.2f}".format(round(sh101.range(f'v{a+4}').value,2),','))
+        
+for a in range(0,20): # 운용 수익률 전월말로 옮기기
+     hwp.PutFieldText(f"c_{a+82}",format(round(sh101.range(f'w{a+4}').value,2),',')) 
+for a in range(0,20): # 결산수익률 당월 채워넣기
+    hwp.PutFieldText(f'd_{a+62}',"{:.2f}".format(round(sh101.range(f'f{a+4}').value,2),','))
+    
+for a in range(0,20): # 운용수익률 당월 채워넣기
+    hwp.PutFieldText(f'd_{a+82}',"{:.2f}".format(round(sh101.range(f'k{a+4}').value,2),','))
+for a in range(0,20): #전월말 대비 결산손익률
+    hwp.PutFieldText(f'f_{a+2}', "{:.2f}".format(float(hwp.GetFieldText(f'd_{a+62}')) - float(hwp.GetFieldText(f'c_{a+62}'))))
+    
+for a in range(0,20): #전월말 대비 운용손익률
+    hwp.PutFieldText(f'f_{a+22}',"{:.2f}".format(float(hwp.GetFieldText(f'd_{a+82}')) - float(hwp.GetFieldText(f'c_{a+82}'))))
+for a in range(0,20): #전년말 대비 평가손익 증감
+    hwp.PutFieldText(f'e_{a+22}', format(int(sh101.range(f'i{a+4}').value),',')) 
+for a in range(0,20): #전년말 대비 결산수익률 증감
+    hwp.PutFieldText(f'f_{a+42}', "{:.2f}".format(float(sh101.range(f'f{a+4}').value) - float((sh101.range(f'p{a+4}').value))))
+for a in range(0,20): #전년말 대비 운용수익률 증감
+    hwp.PutFieldText(f'f_{a+62}', "{:.2f}".format(float(sh101.range(f'k{a+4}').value) - float((sh101.range(f'q{a+4}').value))))
+### 한글 설명문(왼쪽) ###
+​
+hwp.PutFieldText('b_1', won_2(hwp.GetFieldText('d_21'))) #총자산
+hwp.PutFieldText('b_3', won_2_arrow("{:.0f}".format(float(str(sh101.range('c23').value).replace(",",'')) - float(str(sh101.range('m23').value).replace(",",''))))) ##전년말 대비
+hwp.PutFieldText('b_4', won_2(hwp.GetFieldText('c_21'))) # 전월말
+hwp.PutFieldText('b_5', won_2_arrow("{:.0f}".format(float(str(sh101.range('c23').value).replace(",",'')) - float(str(sh101.range('s23').value).replace(",",'')))))
+hwp.PutFieldText('b_6', won_2(hwp.GetFieldText('d_16'))) #수익성자산
+hwp.PutFieldText('b_7', won_2_arrow("{:.0f}".format(float(str(sh101.range('c18').value).replace(",",'')) - float(str(sh101.range('m18').value).replace(",",'')))))
+hwp.PutFieldText('b_8', won_2_arrow("{:.0f}".format(float(str(sh101.range('c7').value).replace(",",'')) - float(str(sh101.range('m7').value).replace(",",'')))))
+hwp.PutFieldText('b_9', won_2_arrow("{:.0f}".format(float(str(sh101.range('c11').value).replace(",",'')) - float(str(sh101.range('m11').value).replace(",",'')))))
+hwp.PutFieldText('b_10', won_2_arrow("{:.0f}".format(float(str(sh101.range('c17').value).replace(",",'')) - float(str(sh101.range('m17').value).replace(",",'')))))
+hwp.PutFieldText('b_11', won_2(hwp.GetFieldText('c_16')))
+hwp.PutFieldText('b_12', won_2_arrow("{:.0f}".format(float(str(sh101.range('c18').value).replace(",",'')) - float(str(sh101.range('s18').value).replace(",",'')))))
+hwp.PutFieldText('b_13', won_2_arrow("{:.0f}".format(float(str(sh101.range('c7').value).replace(",",'')) - float(str(sh101.range('s7').value).replace(",",'')))))
+hwp.PutFieldText('b_14', won_2_arrow("{:.0f}".format(float(str(sh101.range('c11').value).replace(",",'')) - float(str(sh101.range('s11').value).replace(",",'')))))
+hwp.PutFieldText('b_15', won_2_arrow("{:.0f}".format(float(str(sh101.range('c17').value).replace(",",'')) - float(str(sh101.range('s17').value).replace(",",'')))))
+
+### 화살표 함수
+def updown(a):
+    amount = float("{:.2f}".format(float(a))) ##float
+    if amount < 0:
+        return(str(amount).replace('-',"") + '%p↓')
+    else:
+        return(str(amount) + '%p↑')
+        
+### 한글 설명문(오른쪽) ###
+hwp.PutFieldText('b_16',hwp.GetFieldText('d_81') + '%')
+hwp.PutFieldText('b_17',hwp.GetFieldText('d_101') + '%')
+hwp.PutFieldText('b_18', updown(float(sh101.range('f23').value) - float(sh101.range('p23').value)))
+hwp.PutFieldText('b_19', updown(float(sh101.range('k23').value) - float(sh101.range('q23').value)))
+hwp.PutFieldText('b_20',hwp.GetFieldText('c_81') + '%')
+hwp.PutFieldText('b_21', updown(float(sh101.range('f23').value) - float(sh101.range('v23').value)))
+hwp.PutFieldText('b_22',hwp.GetFieldText('c_101') + '%')
+hwp.PutFieldText('b_23', updown(float(sh101.range('k23').value) - float(sh101.range('w23').value)))
+
+hwp.PutFieldText('b_24',won_2(hwp.GetFieldText('d_61')))
+hwp.PutFieldText('b_25',won_2(hwp.GetFieldText('d_45')))
+hwp.PutFieldText('b_26',won_2(hwp.GetFieldText('d_49')))
+hwp.PutFieldText('b_27',won_2(hwp.GetFieldText('d_55')))
+
+hwp.PutFieldText('b_28', won_2_arrow(hwp.GetFieldText('e_41')))
+hwp.PutFieldText('b_29', won_2_arrow("{:.0f}".format(float(str(sh101.range('h7').value).replace(",",'')) - float(str(sh101.range('o7').value).replace(",",'')))))
+hwp.PutFieldText('b_30', won_2_arrow(hwp.GetFieldText('e_29')))
+hwp.PutFieldText('b_31', won_2_arrow(hwp.GetFieldText('e_35')))
+
+hwp.PutFieldText('b_32', won_2(hwp.GetFieldText('c_61')))
+hwp.PutFieldText('b_33', won_2_arrow(hwp.GetFieldText('e_21')))
+hwp.PutFieldText('b_34', won_2_arrow(hwp.GetFieldText('e_5')))
+hwp.PutFieldText('b_35', won_2_arrow(hwp.GetFieldText('e_9')))
+hwp.PutFieldText('b_36', won_2_arrow(hwp.GetFieldText('e_15')))
